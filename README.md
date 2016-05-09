@@ -48,7 +48,7 @@ $ npm run build-mac
 
 (The MIT License)
 
-Copyright (c) 2016 YangJian &lt;yangjian@lantouzi.com&gt;
+Copyright (c) 2016 YangJian &lt;i@yangjian.me&gt;
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
