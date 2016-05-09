@@ -3,7 +3,7 @@ Toaster Uploader
 
 ## 概述
 
-Toaster Uploader是一款基于 Electron + Vue.js 的一款七牛云桌面客户端
+Toaster Uploader是一款基于 Electron + Vue.js 的七牛云桌面客户端
 ![Toaster Uploader](http://yangjian.qiniudn.com/FuAlMdoJxWrc1uXuxjQeWj8R1xqm)
 ![Toaster Uploader](http://yangjian.qiniudn.com/FujkPWN8heEhPgYPfWkZxZMrA_uA)
 
