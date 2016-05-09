@@ -5,6 +5,11 @@ Toaster Uploader
 
 Toaster Uploader是一款基于 Electron + Vue.js 的牛云存储图片上传桌面客户端
 
+![Toaster Uploader](http://yangjian.qiniudn.com/FuAlMdoJxWrc1uXuxjQeWj8R1xqm)
+
+![Toaster Uploader](http://yangjian.qiniudn.com/FujkPWN8heEhPgYPfWkZxZMrA_uA)
+
+
 ## 功能
 
 - 可选的图片无损压缩功能
@@ -19,7 +24,7 @@ Toaster Uploader是一款基于 Electron + Vue.js 的牛云存储图片上传桌
 
 ## 注意事项
 
-- 目前只针对 Mac 平台进行了打包，可以直接[点击这里下载Mac版本]()
+- 目前只针对 Mac 平台进行了打包，可以直接[点击这里下载Mac版本](https://raw.githubusercontent.com/A-limon/toaster-uploader/master/build/mac/Toaster%20Uploader.zip)
 - 如果需要打包Window平台的版本，请参考electron-prebuilt的使用说明进行Build
 
 ## 开发指南
