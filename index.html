@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Toaster Uploader</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/font.css">
+    <script>
+      document.ondragover = document.ondrop = function(e) {
+        e.preventDefault()
+        return false
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app" class="app">
+      <div class="main">
+        <div class="left">
+          <div v-el:drop>
+            <section class="app-drop">
+              <div class="tips">
+                <p><i class="fa fa-cloud-upload icon" aria-hidden="true"></i></p>
+                <p v-text="msg.dropText"></p>
+              </div>
+            </section>
+          </div>
+        </div>
+        <div class="right">
+          <h2 class="h-title">
+            <span v-text="msg.recent"></span>:
+            <span class="action" title="clear list" @click="clearList"><i class="fa fa-trash-o"></i></span>
+          </h2>
+          <template v-for="file in files">
+            <file :file="file" :setting="fileSetting" :auth="authInfo.info"></file>
+          </template>
+        </div>
+      </div>
+      <div class="alert g-vue-container" v-show="authInfo.show" transition="g-show">
+        <h3><i class="fa fa-spin fa-spinner"></i><span v-text="msg.alertMsg"></span></h3>
+      </div>
+    </div>
+    <script>
+      'use strict'
+      const remote = require('electron').remote
+      const vue = require('vue')
+      const file = require('./app/components/file')
+      const ipcRenderer = require('electron').ipcRenderer
+      const globalSetting = require('remote').getGlobal('setting')
+      let vm = new vue({
+        el: '#app',
+        name: 'main',
+        data: {
+          locales: {
+            en: {
+              dropText: 'Drag and drop files to upload',
+              recent: 'Recent Upload',
+              alertMsg: 'Initializing...',
+            },
+            zh: {
+              dropText: '将文件拖住到此处上传',
+              recent: '最近上传',
+              alertMsg: '正在初始化...',
+            }
+          },
+          authInfo: {
+            show: !globalSetting.qn,
+            info: {}
+          },
+          dropSetting: globalSetting.drop,
+          fileSetting: {
+            compressPath: globalSetting.compressPath,
+            needCompress: globalSetting.needCompress,
+            optimizationLevel: globalSetting.compressLevel,
+            maxSizeToDataURL: globalSetting.maxSizeToDataURL
+          },
+          files: []
+        },
+        computed: {
+          msg: function () {
+            if (this.$data.locales[globalSetting.lang]) {
+              return this.$data.locales[globalSetting.lang]
+            } else {
+              return this.$data.locales.en
+            }
+          }
+        },
+        methods: {
+          // clear files list
+          clearList: function () {
+            vm.$data.files = []
+          },
+          // listening the messages from main process
+          initIpc: function () {
+            ipcRenderer.on('auth-info', (event, message) => {
+              if (message.code === 'success') {
+                setTimeout(() => {
+                  this.$data.authInfo.show = false
+                  this.$data.authInfo.info = JSON.parse(message.auth)
+                }, 500) 
+              }
+            })
+          },
+          initDrop: function () {
+            const holder = this.$els.drop
+            let vm = this
+            holder.ondragover = function () {
+              return false
+            }
+            holder.ondragleave = holder.ondragend = function () {
+              return false
+            }
+            holder.ondrop = function (e) {
+              e.preventDefault()
+              const files = e.dataTransfer.files
+              if (files.length >= vm.$data.dropSetting.maxFilesOnce) {
+                return false
+              }
+              Object.keys(files).forEach((key) => {
+                const file = files[key]
+                if (vm.$data.dropSetting.availableType.indexOf(file.type) !== -1) {
+                  vm.$data.files.push(file)
+                }
+              })
+              return false
+            }
+          }
+        },
+        ready: function () {
+          this.initIpc()
+          this.initDrop()
+        }
+      })
+    </script>
+  </body>
+</html>

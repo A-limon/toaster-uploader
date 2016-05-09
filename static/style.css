@@ -1,0 +1,191 @@
+/* base */
+html {
+  height: 100%;
+  font-family: 'PingFang SC',"Helvetica Neue", Helvetica, 'Hiragino Sans GB', 'Microsoft YaHei', 'WenQuanYi Micro Hei';
+}
+p{
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style: none;
+}
+.g-vue-container {
+  opacity: 0;
+}
+.g-show-transition {
+  transition: all .3s ease;
+  opacity: 1;
+}
+.g-show-enter, 
+.g-show-leave {
+  opacity: 0;
+}
+.alert {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.75);
+  top: 0;
+  left: 0;
+  z-index: 10;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.alert .fa {
+  margin-right: 10px;
+}
+/* index */
+.app {
+  width: 98%;
+  margin: 20px auto;
+  -webkit-user-select: none;
+  -user-select: none;
+}
+.app .main {
+  margin-top: 40px;
+  display: flex;
+}
+.app .left {
+  flex: 2;
+  margin-right: 20px;
+  padding-top: 20px;
+}
+.app .right {
+  flex: 3;
+  height: 400px;
+  overflow-y: scroll;
+  border-left: 1px solid #eee;
+  padding-left: 20px;
+}
+.app .h-title {
+  position: relative;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  padding-bottom: 3px;
+  margin: 0;
+  font-weight: bold;
+  color: #808080;
+}
+.app .h-title .action {
+  margin-left: 20px;
+  display: inline-block;
+  font-size: 13px;
+}
+.app .app-drop {
+  border-radius: 5px;
+  border: 2px dashed #eee;
+  background: #fafafa;
+  height: 300px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #868686;
+}
+.app .app-drop .icon {
+  font-size: 2em;
+  color: #81c548;
+  margin-bottom: 10px;
+}
+.app .file {
+  margin: 10px auto;
+  padding: 3px 0;
+  padding-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-bottom: 1px solid #eee;
+  color: #7D7D7D;
+  font-size: 13px;
+}
+.app .file .img {
+  flex: 1;
+  margin-right: 10px;
+  text-align: center;
+}
+.app .file .img img {
+  width: 100%;
+  max-width: 60px;
+  max-height: 60px;
+}
+.app .file .key {
+  margin-right: 15px;
+}
+.app .file .icon {
+  margin-left: 5px;
+}
+.app .file .info {
+  flex: 6;
+}
+.app .file .status {
+  flex: 1;
+}
+.app .file .line {
+  display: flex;
+  margin: 5px auto;
+}
+.app .file .btn {
+  display: inline-block;
+  margin-right: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 3px 10px;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.app .file .btn:hover,
+.app .file .btn:active {
+  background: #000000;
+  color: #ECECEC;
+}
+.app .file .btn i {
+  margin-right: 3px;
+}
+/* auth */
+.auth {
+  width: 80%;
+  margin: 50px auto;
+  color: #a2a2a2;
+}
+.auth .list {
+  padding: 10px 0;
+}
+.auth .list .name {
+  display: inline-block;
+  width: 130px;
+  font-size: 13px;
+}
+.auth .list .input {
+  display: inline-block;
+  width: 300px;
+  height: 25px;
+  line-height: 25px;
+  text-indent: 1em;
+  outline: none;
+}
+.auth .list .info {
+  margin-top: 10px;
+  font-size: 11px;
+  text-align: center;
+}
+.auth .btn {
+  display: block;
+  text-decoration: none;
+  width: 50%;
+  margin: 20px auto;
+  height: 35px;
+  line-height: 35px;
+  border-radius: 3px;
+  text-align: center;
+  color: #fff;
+  background: #42b983;
+  font-size: 13px;
+  cursor: pointer;
+}
+.auth .btn:hover {
+  opacity: 0.8;
+}

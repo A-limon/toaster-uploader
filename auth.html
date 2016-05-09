@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <title>Auth</title>
+    <link rel="stylesheet" href="static/style.css">
+    <link rel="stylesheet" href="static/font.css">
+  </head>
+  <body>
+    <div id="auth" class="auth">
+      <li class="list">
+        <p class="name">
+          <span v-text="msg.accessKey"></span>
+          (<span v-text="msg.required"></span>)
+        </p>
+        <input type="text" class="input" v-model="qn.accessKey">
+      </li>
+      <li class="list">
+        <p class="name">
+          <span v-text="msg.secretKey"></span>
+          (<span v-text="msg.required"></span>)
+        </p>
+        <input type="text" class="input" v-model="qn.secretKey">
+      </li>
+      <li class="list">
+        <p class="name">
+          <span v-text="msg.bucket"></span>
+          (<span v-text="msg.required"></span>)
+        </p>
+        <input type="text" class="input" v-model="qn.bucket">
+      </li>
+       <li class="list">
+        <p class="name">
+          <span v-text="msg.origin"></span>
+          (<span v-text="msg.optional"></span>)
+        </p>
+        <input type="text" class="input" v-model="qn.origin">
+      </li>
+      <li class="list">
+        <p class="name">
+          <span v-text="msg.uploadURL"></span>
+          (<span v-text="msg.optional"></span>)
+        </p>
+        <input type="text" class="input" v-model="qn.uploadURL">
+        <p v-text="msg.uploadURLInfo" class="info"></p>
+      </li>
+      <li class="list">
+        <a class="btn" v-text="msg.btn" @click="save"></a>
+      </li>
+    </div>
+    <script>
+      'use strict'
+      const remote = require('electron').remote
+      const vue = require('vue')
+      const storage = require('./app/config/storage')
+      const ipcRenderer = require('electron').ipcRenderer
+      let globalSetting = require('remote').getGlobal('setting')
+      let vm = new vue({
+        el: '#auth',
+        name: 'auth',
+        data: {
+          locales: {
+            en: {
+              title: 'Qiniu Auth',
+              accessKey: 'accessKey',
+              secretKey: 'secretKey',
+              bucket: 'bucket',
+              origin: 'origin',
+              uploadURL: 'uploadURL',
+              uploadURLInfo: 'if your app outside of China, please set "uploadURL" to "http://up.qiniug.com/"',
+              saving: 'Saving...',
+              btn: 'Save',
+              required: 'required',
+              optional: 'optional'
+            },
+            zh: {
+              title: '七牛授权',
+              accessKey: 'accessKey',
+              secretKey: 'secretKey',
+              bucket: '空间名称',
+              origin: '空间域名',
+              uploadURL: 'uploadURL',
+              uploadURLInfo: '如果您的App不在中国大陆,请将"uploadURL"设置为"http://up.qiniug.com/"',
+              saving: '保存中...',
+              btn: '保存',
+              required: '必填',
+              optional: '选填'
+            }
+          },
+          qn: {
+            accessKey: '',
+            secretKey: '',
+            bucket: '',
+            origin: '',
+            uploadURL: ''
+          },
+          allChecked: false  
+        },
+        computed: {
+          msg: function () {
+            if (this.$data.locales[globalSetting.lang]) {
+              return this.$data.locales[globalSetting.lang]
+            } else {
+              return this.$data.locales.en
+            }
+          }
+        },
+        methods: {
+          getData: function () {
+            let obj = storage.get('qn')
+            if (obj) {
+              this.$data.qn = obj
+            }
+          },
+          check: function () {
+            for(let key in this.$data.qn) {
+              if (key !== 'uploadURL' && key !== 'origin') {
+                if (!this.$data.qn[key]) {
+                  alert(key + '' + this.msg.required)
+                  this.$data.allChecked = false
+                  return false
+                } else {
+                  this.$data.allChecked = true
+                }
+              }
+            }
+          },
+          save: function () {
+            this.check()
+            if (this.$data.allChecked) {
+              this.msg.btn = this.msg.saving
+              storage.set('qn',this.$data.qn)
+              setTimeout(()=> {
+                ipcRenderer.send('auth-finish',JSON.stringify(this.$data.qn))
+              },1000)
+            }
+          }
+        },
+        ready: function () {
+          document.title = this.msg.title
+          this.getData()
+        }
+      })
+    </script>
+  </body>
+</html>
